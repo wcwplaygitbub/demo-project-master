@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统</title>
+</head>
+<body>
+<div id="currentHost"></div>
+<div style="align-content: center">当前登录用户：<span id="loginStatus"></span></div>
+<div>
+    <button onclick="test()">测试接口访问</button>
+    <button onclick="clearToken()">注销登录</button>
+</div>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/Base64/1.0.2/base64.min.js"></script>
+<script>
+    test();
+
+    var info = localStorage.getItem("token").split(".")[1];
+    var userName = JSON.parse(window.atob(info)).name;
+    $('#loginStatus').text(userName);
+    $('#currentHost').text("当前ip，端口：" + location.origin);
+
+
+    //测试token是否有效
+    function test() {
+        $.get("/test?token=" + localStorage.getItem("token"), function (res) {
+            if (res.code === 1) {
+            } else {
+                goToLoginServer();
+            }
+        })
+    }
+
+    //注销登录
+    function clearToken() {
+        $.get("/logout?token=" + localStorage.getItem("token"), function (res) {
+            localStorage.removeItem("token");
+            goToLoginServer();
+        })
+    }
+
+    function goToLoginServer() {
+        alert("当前无登录信息，跳转到认证中心");
+        localStorage.setItem("redirect", location.href);
+        location.href = encodeURI("http://localhost:8080/sso/static/index.html?order=checkLogin&redirect=" + window.location.origin + "/static/redirect.html");
+    }
+
+</script>
+</body>
+</html>
