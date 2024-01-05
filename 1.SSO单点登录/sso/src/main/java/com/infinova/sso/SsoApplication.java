@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @EnableScheduling
 public class SsoApplication {
-
+    // wcwtest
     public static void main(String[] args) {
         SpringApplication.run(SsoApplication.class, args);
     }
