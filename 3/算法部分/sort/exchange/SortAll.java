@@ -210,13 +210,70 @@ public class SortAll {
         fastSort(arr, j + 1, end);
     }
 
+    /**
+     * 堆排序
+     * @param arr
+     */
+    private static void heapSort(int[] arr) {
+        // 1. 构建一个大/小顶堆
+        int len = arr.length;
+
+        buildMaxHeap(arr);
+
+        // 2. 开始排序
+        for (int i = len - 1; i > 0; i--) {
+            swap(arr, 0, i);
+            len--;
+            heapify(arr, 0, len);
+        }
+
+    }
+
+    private static void buildMaxHeap(int[] arr){
+        int len = arr.length;
+        for (int i = (int) Math.floor(len / 2); i >= 0; i--){
+            heapify(arr, i, len);
+        }
+    }
+
+    private static void heapify(int[] arr, int i, int len){
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+        int largest = i;
+
+        if (left < len && arr[left] > arr[largest]) {
+            largest = left;
+        }
+
+        if (right < len && arr[right] > arr[largest]) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            swap(arr, i, largest);
+            heapify(arr, largest, len);
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+
+
+
+
+
 
     public static void main(String[] args) {
-//        int[] test = new int[]{1,8,3,6,7,2,9,0};
-        int[] test = new int[]{1,0,0,0,0,0,0,0};
+        int[] test = new int[]{1,8,3,6,7,2,9,0};
+//        int[] test = new int[]{1,0,0,0,0,0,0,0};
 //        mergeSort(test, 0, test.length - 1);
-        fastSort(test, 0, test.length - 1);
+//        fastSort(test, 0, test.length - 1);
 //        shellSort(test);
+        heapSort(test);
         for (int i = 0; i < test.length; i++) {
             System.out.println(test[i]);
         }
