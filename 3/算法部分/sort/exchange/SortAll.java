@@ -1,4 +1,4 @@
-package sort;
+package sort.exchange;
 
 
 import java.util.ArrayList;
