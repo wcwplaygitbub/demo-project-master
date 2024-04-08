@@ -255,6 +255,39 @@ public class SortAll {
         }
     }
 
+
+    /**
+     * 计数排序
+     * @param arr
+     * @return
+     */
+    private static  int[] countingSort(int[] arr) {
+        // 1. 寻找最大值
+        int maxValue = arr[0];
+        for (int value : arr) {
+            if (maxValue < value) {
+                maxValue = value;
+            }
+        }
+
+        // 2. 开始排序
+        int bucketLen = maxValue + 1;
+        int[] bucket = new int[bucketLen];
+
+        for (int value : arr) {
+            bucket[value]++;
+        }
+
+        int sortedIndex = 0;
+        for (int j = 0; j < bucketLen; j++) {
+            while (bucket[j] > 0) {
+                arr[sortedIndex++] = j;
+                bucket[j]--;
+            }
+        }
+        return arr;
+    }
+
     private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
